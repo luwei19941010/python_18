@@ -39,6 +39,8 @@ print(result)
 
 ##### 2.对象作用
 
+##### 2.1封装
+
 存储一些值，以后方便自己使用。
 
 ```
@@ -129,9 +131,234 @@ for i  in  l :
     print(i.show())
 ```
 
+实例一：
+
+```
+class Plice:
+    def __init__(self,name):
+        self.name=name
+        self.hp=1000
+    def qiang(self,other):
+        msg='%s打了%s一枪'%(self.name,other.name)
+        other.hp=other.hp-100
+        print(other.hp,msg)
+    def quan(self,other):
+        msg='%s打了%s一枪'%(self.name,other.name)
+        other.hp=other.hp-50
+        print(other.hp,msg)
+
+class Bandit:
+    def __init__(self,name):
+        self.name=name
+        self.hp=500
+    def qiang(self,other):
+        msg='%s打了%s一枪'%(self.name,other.name)
+        other.hp=other.hp-100
+        print(other.hp,msg)
+
+lw=Plice('luwei')
+yt=Bandit('yaoting')
+
+lw.qiang(yt)
+lw.quan(yt)
+yt.qiang(lw)
+print(lw.hp,yt.hp)
+```
 
 
 
 
 
+##### 2.2继承：
 
+
+
+```
+#父类（基类）
+class Base:
+	def f1(self)
+		pass
+#子类（派生类）
+class Foo:
+	def f2(self):
+		pass
+		
+#创建一个子类的对象
+obj=Foo()
+#执行对象.方法时，优先在自己的类中找，如果没有就在父类中找。
+obj.f2()
+obj.f1()
+#创建一个父类的对象
+obj.Base()
+obj.f1()
+```
+
+何时使用继承？当多个类都需要共同方法，则可以使用继承，增加代码重用性。
+
+继承关系的查找方法的顺序。
+
+```
+
+'''
+class Base:
+    def f1(self):
+        print('base.f1')
+class Foo(Base):
+    def f2(self):
+        print('foo.f2')
+obj=Foo()
+obj.f1()
+obj.f2()
+
+
+class Base:
+    def f1(self):
+        print('base.f1')
+class Foo(Base):
+    def f2(self):
+        self.f1()
+        print('foo.f2')
+
+obj=Foo()
+obj.f2()
+
+
+class Base:
+    def f1(self):
+        print('base.f1')
+class Foo(Base):
+    def f2(self):
+        self.f1()
+        print('foo.f2')
+    def f1(self):
+        print('foo.f1')
+
+obj=Foo()
+obj.f2()
+
+'''
+class Base:
+    def f1(self):
+        print('base.f1')
+class Foo(Base):
+    def f2(self):
+        self.f1()
+        print('foo.f2')
+    def f1(self):
+        print('foo.f1')
+
+obj=Foo()
+obj.f2()class Base:
+	def f1(self)
+```
+
+1.明确找到self到底是谁？
+
+2.self是哪个类创建的，就从此类开始找，自己没有再找父类。
+
+多继承 继承类从左往右找
+
+```
+class BaseServer:
+    pass
+
+class TCPServer(BaseServer):
+    pass
+
+class ThreadingMixIn:
+    pass
+
+class ThreadingTCPServer(ThreadingMixIn,TCPServer):
+    pass
+
+obj=ThreadingTCPServer()
+obj.serve_forever()
+
+查找顺序1.ThreadingTCPServer →2.ThreadingMixIn →3.TCPServer →4.BaseServer
+```
+
+##### 2.3多态(多种类型/多种形态)
+
+```
+def func(arg)
+	v=arg[-1]
+	print(v)
+```
+
+什么是鸭子模型
+
+```
+对于一个函数而言，python对于参数的类型不会限制，那么传入参数就可以是各种类型，在函数如果列如：arg.send方法，那么就是对于传入类型的一个限制（类型必须要有send方法）
+这就是鸭子模型，类似于上述的函数我们认为只要呱呱叫的就是鸭子（只要有send方法，就是我们想要的类型）
+```
+
+
+
+#### 今日总结：
+
+##### 1.面向对象的三大特性：1.封装 2.继承 3.多态
+
+- 封装 1.将同一类方法封装到一个类中。2.将一些数据写入到对象中，以便之后使用
+
+  ```
+  class File：
+  	def read(self)：
+  		pass
+  	def write(self)：
+  		pass
+  ```
+
+  ```
+  class Person:
+  	def __init__(self,name,age):
+  		self.name=name
+  		self.age=age
+  p=Person('luwei',18)
+  
+  ```
+
+- 继承
+
+  ```
+  class Base:
+  	pass
+  class Foo(Base):
+  	pass
+  ```
+
+  - 多继承
+  - self到底是谁？
+  - self是由哪个类创建，就从这个类开始找。
+
+- 多态
+
+  ```
+  def func(arg):#多种类型
+  	arg.senc()#必须具有send方法
+  ```
+
+  
+
+##### 2.面向对象格式关键词
+
+```
+class 类：
+	def __init__(self,x):
+		self.x=x
+	def 方法(self)：
+		print(self.x)
+#实例化一个对象
+v1=类(666)#自动执行__init__方法
+v2.方法('alex')
+```
+
+##### 3. 三个词：类，对象，方法
+
+
+
+
+
+##### 4.什么时候使用面向对象
+
+- 函数（业务功能）比较多，可以使用面向对象将函数进行封装归类
+- 想要做数据封装时
